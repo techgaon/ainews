@@ -103,10 +103,20 @@ SOURCE: ${src.name} (${src.type})
 TITLE: ${it.title}
 TEXT: ${it.desc.slice(0, 2500)}`;
 let geminiDown = 0;
+let gModel = E.GEMINI_MODEL || '';
+async function pickModel() { // उपलब्ध सबसे नया Flash मॉडल अपने-आप चुनें
+  try {
+    const j = await (await fetch(`https://generativelanguage.googleapis.com/v1beta/models?pageSize=200&key=${E.GEMINI_API_KEY}`)).json();
+    const ok = (j.models || []).filter(m => (m.supportedGenerationMethods || []).includes('generateContent')).map(m => m.name.replace('models/', '')).filter(n => /^gemini-[\d.]+-flash(-lite)?(-latest)?$|^gemini-flash(-lite)?-latest$/.test(n));
+    const v = n => +((n.match(/gemini-([\d.]+)/) || [])[1] || 99);
+    ok.sort((a, b) => (/lite/.test(a) - /lite/.test(b)) || (v(b) - v(a)));
+    return ok[0] || 'gemini-flash-latest';
+  } catch { return 'gemini-flash-latest'; }
+}
 async function gemini(p) {
-  const model = E.GEMINI_MODEL || 'gemini-2.5-flash';
+  if (!gModel) { gModel = await pickModel(); log('Gemini model:', gModel); } const model = gModel;
   const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${E.GEMINI_API_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ contents: [{ parts: [{ text: p }] }], generationConfig: { temperature: .4, responseMimeType: 'application/json', thinkingConfig: { thinkingBudget: 0 } } }) });
+    body: JSON.stringify({ contents: [{ parts: [{ text: p }] }], generationConfig: { temperature: .4, responseMimeType: 'application/json' } }) });
   if (!r.ok) throw Object.assign(new Error('Gemini ' + r.status + ' ' + (await r.text()).slice(0, 150)), { status: r.status });
   const j = await r.json(); return j.candidates?.[0]?.content?.parts?.map(x => x.text).join('') || '';
 }
