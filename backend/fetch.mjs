@@ -103,20 +103,21 @@ SOURCE: ${src.name} (${src.type})
 TITLE: ${it.title}
 TEXT: ${it.desc.slice(0, 2500)}`;
 let geminiDown = 0;
-let gModel = E.GEMINI_MODEL || '';
+let gModel = '', gList = E.GEMINI_MODEL ? [E.GEMINI_MODEL] : null;
 async function pickModel() { // उपलब्ध सबसे नया Flash मॉडल अपने-आप चुनें
   try {
     const j = await (await fetch(`https://generativelanguage.googleapis.com/v1beta/models?pageSize=200&key=${E.GEMINI_API_KEY}`)).json();
     const ok = (j.models || []).filter(m => (m.supportedGenerationMethods || []).includes('generateContent')).map(m => m.name.replace('models/', '')).filter(n => /^gemini-[\d.]+-flash(-lite)?(-latest)?$|^gemini-flash(-lite)?-latest$/.test(n));
     const v = n => +((n.match(/gemini-([\d.]+)/) || [])[1] || 99);
     ok.sort((a, b) => (/lite/.test(a) - /lite/.test(b)) || (v(b) - v(a)));
-    return ok[0] || 'gemini-flash-latest';
-  } catch { return 'gemini-flash-latest'; }
+    return [...ok.filter(n => !/latest/.test(n)), ...ok.filter(n => /latest/.test(n))];
+  } catch { return ['gemini-flash-latest']; }
 }
 async function gemini(p) {
-  if (!gModel) { gModel = await pickModel(); log('Gemini model:', gModel); } const model = gModel;
+  if (!gList) { gList = await pickModel(); log('Gemini models:', gList.join(', ')); } gModel = gList[0]; if (!gModel) throw Object.assign(new Error('Gemini: no model left'), { status: 429 }); const model = gModel;
   const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${E.GEMINI_API_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(90000),
     body: JSON.stringify({ contents: [{ parts: [{ text: p }] }], generationConfig: { temperature: .4, responseMimeType: 'application/json' } }) });
+  if ((r.status === 404 || r.status === 429) && gList.length > 1) { log(`  ${gModel} -> ${r.status}, next model`); gList.shift(); return gemini(p); }
   if (!r.ok) throw Object.assign(new Error('Gemini ' + r.status + ' ' + (await r.text()).slice(0, 150)), { status: r.status });
   const j = await r.json(); return j.candidates?.[0]?.content?.parts?.map(x => x.text).join('') || '';
 }
