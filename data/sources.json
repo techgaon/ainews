@@ -1,0 +1,186 @@
+[
+ {
+  "id": 1,
+  "name": "Navbharat Times Tech",
+  "type": "newspaper",
+  "url": "https://news.google.com/rss/search?q=site%3Anavbharattimes.indiatimes.com+tech&hl=hi&gl=IN&ceid=IN:hi",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 2,
+  "name": "Hindustan Tech",
+  "type": "newspaper",
+  "url": "https://news.google.com/rss/search?q=site%3Alivehindustan.com+technology&hl=hi&gl=IN&ceid=IN:hi",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 3,
+  "name": "Dainik Jagran Tech",
+  "type": "newspaper",
+  "url": "https://news.google.com/rss/search?q=site%3Ajagran.com%2Ftechnology&hl=hi&gl=IN&ceid=IN:hi",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 4,
+  "name": "Indian Express Tech",
+  "type": "newspaper",
+  "url": "https://news.google.com/rss/search?q=site%3Aindianexpress.com%2Fsection%2Ftechnology&hl=en-IN&gl=IN&ceid=IN:en",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 5,
+  "name": "Times of India Gadgets",
+  "type": "newspaper",
+  "url": "https://news.google.com/rss/search?q=site%3Atimesofindia.indiatimes.com%2Ftechnology&hl=en-IN&gl=IN&ceid=IN:en",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 6,
+  "name": "Aaj Tak Tech",
+  "type": "tv",
+  "url": "https://news.google.com/rss/search?q=site%3Aaajtak.in%2Ftechnology&hl=hi&gl=IN&ceid=IN:hi",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 7,
+  "name": "NDTV Gadgets360",
+  "type": "tv",
+  "url": "https://news.google.com/rss/search?q=site%3Agadgets360.com&hl=en-IN&gl=IN&ceid=IN:en",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 8,
+  "name": "ABP Live Tech",
+  "type": "tv",
+  "url": "https://news.google.com/rss/search?q=site%3Aabplive.com%2Ftechnology&hl=hi&gl=IN&ceid=IN:hi",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 9,
+  "name": "News18 Tech",
+  "type": "tv",
+  "url": "https://news.google.com/rss/search?q=site%3Ahindi.news18.com%2Fnews%2Ftech&hl=hi&gl=IN&ceid=IN:hi",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 10,
+  "name": "India TV Tech",
+  "type": "tv",
+  "url": "https://news.google.com/rss/search?q=site%3Aindiatv.in+tech&hl=hi&gl=IN&ceid=IN:hi",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 11,
+  "name": "Beebom",
+  "type": "digital",
+  "url": "https://beebom.com/feed/",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 12,
+  "name": "91mobiles",
+  "type": "digital",
+  "url": "https://news.google.com/rss/search?q=site%3A91mobiles.com&hl=en-IN&gl=IN&ceid=IN:en",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 13,
+  "name": "MySmartPrice",
+  "type": "digital",
+  "url": "https://news.google.com/rss/search?q=site%3Amysmartprice.com%2Fgear&hl=en-IN&gl=IN&ceid=IN:en",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 14,
+  "name": "Digit",
+  "type": "digital",
+  "url": "https://news.google.com/rss/search?q=site%3Adigit.in%2Fnews&hl=en-IN&gl=IN&ceid=IN:en",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 15,
+  "name": "TechCrunch AI",
+  "type": "digital",
+  "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 16,
+  "name": "The Verge",
+  "type": "digital",
+  "url": "https://news.google.com/rss/search?q=site%3Atheverge.com&hl=en-IN&gl=IN&ceid=IN:en",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 17,
+  "name": "Technical Guruji",
+  "type": "youtube",
+  "url": "UCOhHO2ICt0ti9KAh-QHvttQ",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 18,
+  "name": "Trakin Tech",
+  "type": "youtube",
+  "url": "UCEPL07qzVsOcHd3sMUws65g",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 19,
+  "name": "Gyan Therapy",
+  "type": "youtube",
+  "url": "UCS261lQDXjMvc8Jck-2CQEg",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 20,
+  "name": "Tech Burner",
+  "type": "youtube",
+  "url": "UCXUJJNoP1QupwsYIWFXmsZg",
+  "lang": "hi",
+  "active": true
+ },
+ {
+  "id": 21,
+  "name": "Geekyranjit",
+  "type": "youtube",
+  "url": "UCO2WJZKQoDW4Te6NHx4KfTg",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 22,
+  "name": "Beebom (YouTube)",
+  "type": "youtube",
+  "url": "UCvpfclapgcuJo0M_x65pfRw",
+  "lang": "en",
+  "active": true
+ },
+ {
+  "id": 23,
+  "name": "Varun Mayya",
+  "type": "youtube",
+  "url": "UCsQoiOrh7jzKmE8NBofhTnQ",
+  "lang": "en",
+  "active": true
+ }
+]

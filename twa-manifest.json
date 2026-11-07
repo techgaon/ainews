@@ -1,0 +1,19 @@
+{
+  "packageId": "in.techgaon.ainews",
+  "host": "techgaon.in",
+  "name": "AI News by TechGaon",
+  "launcherName": "AI News",
+  "display": "standalone",
+  "orientation": "portrait",
+  "themeColor": "#0b0f19",
+  "navigationColor": "#0b0f19",
+  "backgroundColor": "#0b0f19",
+  "startUrl": "/ainews/",
+  "iconUrl": "https://techgaon.in/ainews/icons/icon-512.png",
+  "maskableIconUrl": "https://techgaon.in/ainews/icons/maskable-512.png",
+  "webManifestUrl": "https://techgaon.in/ainews/manifest.json",
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "enableNotifications": false,
+  "fallbackType": "customtabs"
+}

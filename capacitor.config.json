@@ -1,0 +1,7 @@
+{
+  "appId": "in.techgaon.ainews",
+  "appName": "AI News",
+  "webDir": "www",
+  "server": { "androidScheme": "https", "allowNavigation": ["techgaon.in", "www.youtube-nocookie.com"] },
+  "android": { "backgroundColor": "#0b0f19" }
+}

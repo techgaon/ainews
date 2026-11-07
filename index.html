@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="oled">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>AI News — TechGaon | 100 शब्दों में टेक और AI ख़बरें</title>
+<meta name="description" content="AI News by TechGaon: मोबाइल, गैजेट, EV, AI टूल्स, टेलीकॉम और साइबर सुरक्षा की ताज़ा ख़बरें — 100 शब्दों में, हिंदी और English में।">
+<meta name="theme-color" content="#0b0f19">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<meta property="og:title" content="AI News — TechGaon">
+<meta property="og:description" content="टेक और AI की ख़बरें, 100 शब्दों में">
+<meta property="og:image" content="./icons/icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Noto+Sans:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Serif:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<!-- Splash -->
+<div id="splash"><img src="./icons/icon-192.png" alt=""><div class="splash-t">AI News</div><div class="splash-s">by TechGaon</div><div class="bar"><i></i></div></div>
+
+<header class="topbar">
+  <button class="ibtn" id="menuBtn" aria-label="मेन्यू"><span class="ms">menu</span></button>
+  <img id="logo" class="logo" src="./icons/icon-192.png" alt="AI News">
+  <div class="brand"><div class="bt">AI News <span class="live"><i></i>AUTO AI</span></div><div class="bs" id="lastUpd">Auto Feed</div></div>
+  <div class="tr">
+    <button class="lang" id="langBtn" aria-label="भाषा"><b data-l="hi">HI</b><span>/</span><b data-l="en">EN</b></button>
+    <button class="ibtn" id="aaBtn" aria-label="थीम व फ़ॉन्ट"><span class="ms">text_fields</span></button>
+    <button class="ibtn" id="refreshBtn" aria-label="रीफ़्रेश"><span class="ms">cached</span></button>
+  </div>
+</header>
+
+<div class="strip">
+  <span class="pill"><i></i><span id="counter">—</span></span>
+  <span class="pill cat" id="catLabel">🌐 सभी</span>
+  <span class="grow"></span>
+  <button class="mini" id="prevBtn" aria-label="पिछली"><span class="ms">keyboard_arrow_up</span></button>
+  <button class="mini" id="nextBtn" aria-label="अगली"><span class="ms">keyboard_arrow_down</span></button>
+</div>
+<div id="ttsBanner" class="tts hidden"><span class="wave"><i></i><i></i><i></i><i></i></span><span id="ttsText">सुन रहे हैं…</span><button id="ttsStop" class="mini"><span class="ms">stop</span></button></div>
+
+<main id="deck" class="deck" aria-live="polite"></main>
+<div id="empty" class="empty hidden"><span class="ms">newspaper</span><p id="emptyText">ख़बरें लोड हो रही हैं…</p></div>
+
+<!-- Drawer -->
+<div id="backdrop" class="backdrop"></div>
+<aside id="drawer" class="drawer">
+  <div class="dh"><span class="dot"></span><b>TechGaon Feeds</b><button class="ibtn" id="closeDrawer"><span class="ms">close</span></button></div>
+  <div class="dbody">
+    <div class="lbl" data-t="cats">श्रेणियाँ</div>
+    <div id="cats" class="cats"></div>
+    <div class="lbl" data-t="more">और</div>
+    <button class="row" id="savedBtn"><span class="ms">bookmarks</span><span data-t="saved">सेव की गई ख़बरें</span><span class="badge" id="savedCount">0</span></button>
+    <button class="row" id="installBtn" hidden><span class="ms">install_mobile</span><span data-t="install">ऐप इंस्टॉल करें</span></button>
+    <button class="row" id="shareAppBtn"><span class="ms">share</span><span data-t="shareapp">ऐप शेयर करें</span></button>
+    <div class="radar"><div><small>PORTALS</small><b id="nPortals">0</b></div><div><small>YOUTUBE</small><b id="nYT">0</b></div></div>
+    <p class="note" data-t="disc">सारांश AI द्वारा मूल ख़बर से बनाए गए हैं। पूरी ख़बर के लिए हर कार्ड पर दिया गया मूल स्रोत देखें। सभी ट्रेडमार्क/सामग्री उनके मालिकों की है।</p>
+  </div>
+  <footer class="dfoot">
+    <div>AI News · <span class="acc">techgaon.in/ainews</span></div>
+    <div>Powered by <b>TechGaon AI Services</b><br>GSTIN: 09DBSPP3533H1Z5<br>Udyam: UDYAM-UP-14-0065110</div>
+    <div class="legal">
+      <a href="https://techgaon.in/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>
+      <a href="https://techgaon.in/terms.html" target="_blank" rel="noopener">Terms</a>
+      <a href="https://techgaon.in/disclaimer.html" target="_blank" rel="noopener">Disclaimer</a>
+      <a href="https://techgaon.in/contact.html" target="_blank" rel="noopener">Contact</a>
+    </div>
+  </footer>
+</aside>
+
+<!-- Aa sheet -->
+<div id="aaSheet" class="sheet">
+  <div class="grab"></div>
+  <b data-t="theme">थीम</b>
+  <div class="themes">
+    <button data-th="oled"><i style="background:#000"></i>OLED</button>
+    <button data-th="light"><i style="background:#f8fafc"></i>Light</button>
+    <button data-th="sepia"><i style="background:#f4ecd8"></i>Sepia</button>
+    <button data-th="emerald"><i style="background:#04201a"></i>Emerald</button>
+  </div>
+  <b data-t="font">अक्षर का आकार</b>
+  <div class="fsz"><span>A</span><input type="range" id="fontRange" min="85" max="130" step="5" value="100"><span style="font-size:22px">A</span></div>
+  <label class="tg"><input type="checkbox" id="serifTg"> <span data-t="serif">सेरिफ़ फ़ॉन्ट (पढ़ने में आसान)</span></label>
+</div>
+
+<!-- Modal (video / saved / admin) -->
+<div id="modal" class="modal"><div class="mbox"><button class="ibtn mclose" id="mClose"><span class="ms">close</span></button><div id="mBody"></div></div></div>
+<div id="toast" class="toast"></div>
+
+<script src="./config.js"></script>
+<script src="./app.js"></script>
+<script src="./admin.js" defer></script>
+</body>
+</html>

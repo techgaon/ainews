@@ -1,0 +1,28 @@
+name: AI News fetch & summarize
+on:
+  schedule:
+    - cron: "*/20 * * * *"   # हर 20 मिनट (GitHub कभी-कभी कुछ मिनट देर करता है)
+  workflow_dispatch: {}       # एडमिन पैनल का "Fetch & Summarize Now" बटन
+permissions:
+  contents: write
+concurrency: { group: ainews-fetch, cancel-in-progress: false }
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node backend/fetch.mjs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      - name: Save news
+        run: |
+          git config user.name "AI News Bot"
+          git config user.email "bot@techgaon.in"
+          git add data/
+          git diff --cached --quiet && { echo "कोई बदलाव नहीं"; exit 0; }
+          git commit -m "News update $(date -u +%H:%M)"
+          for i in 1 2 3; do git pull --rebase -X theirs && git push && exit 0; sleep 5; done; exit 1

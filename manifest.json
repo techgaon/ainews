@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "AI News by TechGaon",
+  "short_name": "AI News",
+  "description": "टेक और AI की ताज़ा ख़बरें — 100 शब्दों में, हिंदी और English में",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0f19",
+  "theme_color": "#0b0f19",
+  "lang": "hi",
+  "categories": ["news", "technology"],
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
