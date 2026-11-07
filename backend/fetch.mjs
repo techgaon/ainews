@@ -8,7 +8,7 @@ const E = process.env;
 const DATA = new URL('../data/', import.meta.url);
 const rd = (f, d) => { try { return JSON.parse(fs.readFileSync(new URL(f, DATA), 'utf8')); } catch { return d; } };
 const wr = (f, v) => fs.writeFileSync(new URL(f, DATA), JSON.stringify(v, null, 0));
-const MAX_NEW = +(E.MAX_NEW || 30);            // एक दौर में अधिकतम नई ख़बरें (फ़्री लिमिट में)
+const MAX_NEW = +(E.MAX_NEW || 20);            // एक दौर में अधिकतम नई ख़बरें (फ़्री लिमिट में)
 const MAX_AGE_H = +(E.MAX_AGE_H || 36);         // इससे पुरानी ख़बरें नहीं
 const PER_SOURCE = +(E.PER_SOURCE || 4);
 const KEEP = +(E.KEEP || 250);                  // news.json में अधिकतम ख़बरें
@@ -115,13 +115,13 @@ async function pickModel() { // उपलब्ध सबसे नया Flash 
 }
 async function gemini(p) {
   if (!gModel) { gModel = await pickModel(); log('Gemini model:', gModel); } const model = gModel;
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${E.GEMINI_API_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${E.GEMINI_API_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(90000),
     body: JSON.stringify({ contents: [{ parts: [{ text: p }] }], generationConfig: { temperature: .4, responseMimeType: 'application/json' } }) });
   if (!r.ok) throw Object.assign(new Error('Gemini ' + r.status + ' ' + (await r.text()).slice(0, 150)), { status: r.status });
   const j = await r.json(); return j.candidates?.[0]?.content?.parts?.map(x => x.text).join('') || '';
 }
 async function groq(p) {
-  const r = await fetch('https://api.groq.com/openai/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + E.GROQ_API_KEY },
+  const r = await fetch('https://api.groq.com/openai/v1/chat/completions', { signal: AbortSignal.timeout(60000), method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + E.GROQ_API_KEY },
     body: JSON.stringify({ model: E.GROQ_MODEL || 'llama-3.3-70b-versatile', temperature: .4, response_format: { type: 'json_object' }, messages: [{ role: 'user', content: p }] }) });
   if (!r.ok) throw Object.assign(new Error('Groq ' + r.status + ' ' + (await r.text()).slice(0, 150)), { status: r.status });
   return (await r.json()).choices?.[0]?.message?.content || '';
@@ -178,6 +178,7 @@ const normLink = u => { try { const x = new URL(u); ['utm_source', 'utm_medium',
   const fresh = []; let skipped = 0;
   for (const { it, src, id, link } of todo) {
     try {
+      log('  …', src.name, '|', it.title.slice(0, 50));
       if (it.vid && it.desc.length < 80) it.desc = await ytDesc(it.vid);
       let real = link, art = { image: '', text: '' };
       if (/news\.google\.com/.test(link)) { real = await resolveGN(link); it.title = it.title.replace(/\s+-\s+[^-]+$/, ''); } // " - Aaj Tak" हटाएँ
