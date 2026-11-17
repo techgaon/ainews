@@ -10,6 +10,7 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&a
 let tok = LS.get('ghpat', ''), tab = 'src';
 const API = 'https://api.github.com/repos/' + C.GITHUB_REPO;
 async function gh(path, opt = {}) {
+  if (!window.AIN_ACCOUNT?.isAdmin) throw new Error('Sign in with the authorized admin Google account.');
   const r = await fetch(API + path, { ...opt, headers: { Authorization: 'Bearer ' + tok, Accept: 'application/vnd.github+json', ...(opt.headers || {}) } });
   if (!r.ok) throw new Error('GitHub ' + r.status + ': ' + ((await r.json().catch(() => ({}))).message || ''));
   return r.status === 204 ? null : r.json();
@@ -27,7 +28,8 @@ async function editJ(f, fn, msg) {
   throw new Error('सेव नहीं हुआ, दोबारा कोशिश करें');
 }
 async function dispatch() { await gh(`/actions/workflows/${C.GITHUB_WORKFLOW}/dispatches`, { method: 'POST', body: JSON.stringify({ ref: C.GITHUB_BRANCH }) }); }
-function open() { tok ? panel() : login(); }
+function open() { return window.AIN_ACCOUNT?.openAdmin(); }
+window.AIN_LEGACY_ADMIN = () => { if (!window.AIN_ACCOUNT?.isAdmin) return open(); tok ? panel() : login(); };
 function login() {
   modal(`<div class="adm"><h3>🔐 Admin</h3><p style="font-size:12px;color:var(--mut);line-height:1.5">GitHub → Settings → Developer settings → Fine-grained token → Repository: <b>${esc(C.GITHUB_REPO)}</b> → Permissions: Contents + Actions = Read and write</p>
   <input id="aT" type="password" placeholder="github_pat_…"><button class="btn" id="aGo" style="width:100%">Login</button></div>`);

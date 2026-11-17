@@ -3,6 +3,7 @@
 // ज़रूरी secret: GEMINI_API_KEY (और/या GROQ_API_KEY)
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
+import {publicationAllowed} from './publish-control.mjs';
 
 const E = process.env;
 const DATA = new URL('../data/', import.meta.url);
@@ -149,6 +150,7 @@ async function summarize(it, src) {
 const hid = s => createHash('sha1').update(s).digest('hex').slice(0, 16);
 const normLink = u => { try { const x = new URL(u); ['utm_source', 'utm_medium', 'utm_campaign', 'ref'].forEach(k => x.searchParams.delete(k)); return x.toString(); } catch { return u; } };
 (async () => {
+  if (!await publicationAllowed()) { log('Publication paused; keeping the existing news feed unchanged.'); return; }
   const sources = rd('sources.json', []), srcBefore = JSON.stringify(rd('sources.json', [])), admin = rd('admin.json', { custom: [], hidden: [], pinned: [] }), status = rd('status.json', {});
   const old = rd('news.json', []).filter(n => n.source_type !== 'custom' && !String(n.id).startsWith('demo'));
   const known = new Set(old.map(n => n.id));
@@ -178,6 +180,7 @@ const normLink = u => { try { const x = new URL(u); ['utm_source', 'utm_medium',
 
   const fresh = []; let skipped = 0;
   for (const { it, src, id, link } of todo) {
+    if (!await publicationAllowed()) { log('Publication paused during fetch; discarding this unpublished batch.'); return; }
     try {
       log('  …', src.name, '|', it.title.slice(0, 50));
       if (it.vid && it.desc.length < 80) it.desc = await ytDesc(it.vid);
@@ -204,6 +207,7 @@ const normLink = u => { try { const x = new URL(u); ['utm_source', 'utm_medium',
   all.forEach(n => n.pinned = pinned.has(n.id) || !!n.pinned);
   all.sort((a, b) => (b.pinned - a.pinned) || (Date.parse(b.published_at) - Date.parse(a.published_at)));
   all = all.slice(0, KEEP);
+  if (!await publicationAllowed()) { log('Publication paused before save; existing feed unchanged.'); return; }
   wr('news.json', all); wr('status.json', status);
   if (JSON.stringify(sources) !== srcBefore) wr('sources.json', sources); // केवल @handle → channel_id बदलने पर
   log(`पूरा ✓  नई: ${fresh.length}, फ़िल्टर से हटीं: ${skipped}, कुल: ${all.length}`);

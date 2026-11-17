@@ -22,7 +22,14 @@ jobs:
         run: |
           git config user.name "AI News Bot"
           git config user.email "bot@techgaon.in"
+          node backend/publish-control.mjs || { code=$?; if [ "$code" -eq 20 ]; then exit 0; else exit "$code"; fi; }
           git add data/
           git diff --cached --quiet && { echo no-change; exit 0; }
           git commit -m "News update $(date -u +%H:%M)"
-          for i in 1 2 3; do git pull --rebase -X theirs && git push && exit 0; sleep 5; done; exit 1
+          for i in 1 2 3; do
+            git pull --rebase -X theirs || exit 1
+            node backend/publish-control.mjs || { code=$?; if [ "$code" -eq 20 ]; then exit 0; else exit "$code"; fi; }
+            git push && exit 0
+            sleep 5
+          done
+          exit 1

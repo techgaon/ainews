@@ -38,3 +38,15 @@ GitHub Pages → https://techgaon.in/ainews/  (ऐप सीधे data/news.jso
 - **Copyright / Google Play News Policy:** सारांश AI अपने शब्दों में लिखता है (कॉपी नहीं), हर कार्ड पर "स्रोत: … — मूल ख़बर पढ़ें ↗" लिंक है, फ़ोटो मूल फ़ीड की है। Play Console में News app declaration भरते समय प्रकाशक: TechGaon AI Services, संपर्क पता और ईमेल ज़रूर दें।
 - **फ़्री सीमाएँ:** Gemini फ़्री ~10 अनुरोध/मिनट — स्क्रिप्ट हर ख़बर के बीच 6.5 सेकंड रुकती है और एक दौर में अधिकतम 30 नई ख़बरें बनाती है। 30 दिन से पुरानी ख़बरें अपने-आप हटती हैं (news.json में अधिकतम 250)।
 - Legal लिंक (ड्रॉअर फ़ुटर): privacy-policy, terms, disclaimer, contact — `techgaon.in` पर ये चारों पेज मौजूद हों और उनमें AI News का ज़िक्र हो।
+
+## Google accounts, visitor analytics and publishing control (17 November 2026)
+
+The drawer now has **Continue with Google**. All readers may sign in. Only the verified Google account `surajbhanpandey853@gmail.com` can open the new Admin dashboard. That dashboard does not require a GitHub token for analytics or publishing pause/resume. Existing Sources/custom-post tools remain available under Advanced and still require the existing repository token.
+
+Counts start at activation: total visits, unique browsers/devices, today's visits, today's unique devices and Google account registrations. A visit is debounced for 30 minutes across tabs on a browser. Devices are randomly identified and hashed; raw IP/location is not collected. Counts represent browsers/devices, not guaranteed distinct people. Public readers cannot list analytics or account profiles. Public event records are create-only; profiles are owner/admin readable.
+
+Pause can be indefinite or have an automatic resume time. It stops new automatic publication and leaves published stories readable. The fetcher checks control at startup, between AI items, before saving and immediately before pushing the result. When active control cannot be read, a batch is not published.
+
+One-time setup: the **AI News Firebase setup** workflow expects the repository secret `FIREBASE_SERVICE_ACCOUNT` for project `petpyaar-a3ea6`. Do not commit a private key to the repository. The setup script reads the current live Firestore rules and adds only the marked AI News fragment, preserving rules for other apps. It checks the control read before marking `data/firebase-ready.json` enabled. Until setup succeeds, automatic news publication retains its existing behavior, and the dashboard identifies pending permissions instead of showing fabricated zero counts or an ineffective pause switch.
+
+Google provider and `techgaon.in` must already be enabled/authorized in Firebase Authentication. Run `node --test tests/account-control.test.mjs` for publishing and rule-merge checks. Browser sign-in requires an interactive Google session; code checks do not verify that popup flow.

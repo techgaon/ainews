@@ -1,0 +1,36 @@
+name: AI News Firebase setup
+on:
+  push:
+    branches: [main]
+    paths:
+      - backend/ainews.rules.fragment
+      - backend/deploy-firebase.mjs
+      - .github/workflows/firebase-setup.yml
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: ainews-firebase-setup
+  cancel-in-progress: false
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Verify integration logic
+        run: node --test tests/account-control.test.mjs
+      - name: Add isolated Firebase permissions
+        run: node backend/deploy-firebase.mjs
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - name: Activate verified features
+        run: |
+          git config user.name "AI News Setup"
+          git config user.email "bot@techgaon.in"
+          git add data/firebase-ready.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Activate verified Firebase account statistics and publishing control"
+          git pull --rebase
+          git push
